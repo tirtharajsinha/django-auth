@@ -1,0 +1,9 @@
+djnago
+djangorestframework
+django-filter
+markdown
+django-cors-headers 
+python-dotenv
+PyJWT
+
+
