@@ -43,7 +43,7 @@ python manage.py migrate
 ### Run Application
 
 ```
-python manage.py runserver localhost:8000
+python manage.py runserver
 ```
 
 ### API ENDPOINTS
@@ -102,3 +102,5 @@ return ->
         email:string
     }
 ```
+
+<img src="jwt-workflow.webp" alt="">

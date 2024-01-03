@@ -37,8 +37,7 @@ class CustomAuthentication(BasicAuthentication):
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
-        if not serializer.is_valid():
-            raise ValidationError({"email": "Email already taken."})
+        serializer.is_valid(raise_exception=True)
         serializer.save()
 
         return Response(serializer.data)
@@ -52,7 +51,7 @@ class LoginView(APIView):
         user = User.objects.filter(email=email).first()
 
         if user is None:
-            raise AuthenticationFailed("User not forund!")
+            raise AuthenticationFailed("User not found!")
 
         if not user.check_password(password):
             raise AuthenticationFailed("Incorrect Password")
