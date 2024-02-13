@@ -1,12 +1,15 @@
 from django.conf import settings
 from rest_framework.views import APIView
-from .serializers import UserSerializer
+from rest_framework import generics
+from .serializers import UserSerializer, LoginSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from .models import User
 import jwt, datetime
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
 class CustomAuthentication(BasicAuthentication):
@@ -34,7 +37,9 @@ class CustomAuthentication(BasicAuthentication):
 
 
 # Create your views here.
-class RegisterView(APIView):
+class RegisterView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -43,18 +48,14 @@ class RegisterView(APIView):
         return Response(serializer.data)
 
 
-class LoginView(APIView):
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
     def post(self, request):
-        email = request.data["email"]
-        password = request.data["password"]
 
-        user = User.objects.filter(email=email).first()
-
-        if user is None:
-            raise AuthenticationFailed("User not found!")
-
-        if not user.check_password(password):
-            raise AuthenticationFailed("Incorrect Password")
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
 
         payload = {
             "id": user.id,
@@ -66,9 +67,11 @@ class LoginView(APIView):
 
         response = Response()
 
-        response.set_cookie(key="jwt", value=token, httponly=True, samesite="None")
+        response.set_cookie(
+            key="jwt", value=token, httponly=True, samesite="None", secure=True
+        )
 
-        response.data = {"jwt": token}
+        # response.data = {"jwt": token}
 
         return response
 
