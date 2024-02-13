@@ -2,15 +2,20 @@
 
 A RESTful api jwt authentication service provider for fronend applications.
 
-### This project can be used with this angular frontend project [github.com/tirtharajsinha/angular-auth](https://github.com/tirtharajsinha/angular-auth)
+### This project can be used with this ready frontend projects
 
-- also Can be used with following frameowrk.
+1. Angular [tirtharajsinha/angular-auth](https://github.com/tirtharajsinha/angular-auth)
+2. Next/React + Redux [github.com/tirtharajsinha/NEXTjwtAuth](https://github.com/tirtharajsinha/NEXTjwtAuth)
+
+- also Can be used with any frameowrks.
 
 1. Angular
 2. React.js
 3. Next.js
 4. Nuxt.js
 5. vue.js
+6. vanila js
+   etc...
 
 ### Install requirements
 
@@ -21,8 +26,8 @@ pip install -r requirements.txt
 ### Create .env file
 
 ```
-JWT_SECRET="<Secret key>"
-SECRET_KEY="<Secret key>"
+JWT_SECRET="<JWT Secret key>"
+SECRET_KEY="<Django Secret key>"
 ```
 
 Generate Secret Key from here.
